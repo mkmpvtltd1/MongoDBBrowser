@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,15 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MongoDB.Driver;
-using MongoDB.Bson;
+
 
 namespace MongoDBBrowser
 {
     public partial class MongoDBBrowser : Form
     {
-        protected static IMongoClient _client;
-        protected static IMongoDatabase _database;
+        //protected static IMongoClient _client;
+        //protected static IMongoDatabase _database;
         public MongoDBBrowser()
         {
             InitializeComponent();
@@ -29,10 +30,13 @@ namespace MongoDBBrowser
         private void ConnectServer()
         {
             string ConnectionString = "mongodb://Manoj:Com456@ds037215.mongolab.com:37215/mkmpvtltd";
-           // setting.Server.Port = txtPort.Text;
-            _client = new MongoClient(ConnectionString);
+            MongoServer mongo = MongoServer.Create();
+            mongo.Connect();
+            var db = mongo.GetDatabase("tutorial");
 
-            _database = _client.GetDatabase("mkmpvtltd");
+
+
+            mongo.Disconnect();
         }
     }
 }
